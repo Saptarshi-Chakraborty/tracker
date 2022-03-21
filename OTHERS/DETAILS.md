@@ -13,7 +13,7 @@
 
 ---
 
-## Functions Used
+## In-built Functions Used
 
 - `_mkdir()`
   It is used to create a new folder in the current directory
@@ -27,10 +27,13 @@
 <!--
 ******* Format *******
 ### functionName()
->`functionName(arguments ...)`\
+>`returnType functionName(arguments ...)`\
 >    Name with link if this function is similar to any other function. Then a long description about the function. After that describe @Return Value (if any).
 -->
 
+### tracker_start()
+>`void tracker_start()`\
+>    Start the Tracker in current folder. It prints out if the Tracker is already started or, Started now or not.
 
 ### createFile()
 >`int createFile(char *fileName)`\
