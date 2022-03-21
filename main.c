@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <direct.h>
+#include <sys/types.h>
+
 #include "primaryFunctions.c"
 #include "utilityFunctions.c"
 
