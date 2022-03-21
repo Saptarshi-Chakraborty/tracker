@@ -26,29 +26,29 @@
 
 <!--
 ******* Format *******
-### ⚡ functionName()
+### functionName()
 >`functionName(arguments ...)`\
 >    Name with link if this function is similar to any other function. Then a long description about the function. After that describe @Return Value (if any).
 -->
 
 
-### ⚡ createFile()
+### createFile()
 >`int createFile(char *fileName)`\
 >    It is used to create a new file. It takes a file name (path) as an argument.
 
-### ⚡ createFolder()
+### createFolder()
 >`int createFolder(char *folderName)`\
 >    It is used to create a new folder in. It takes a folder name (path) as an argument.
 
-### ⚡ isFile()
+### isFile()
 
 > `int isFile(char * filename)`\
 >  It is used to check if the file exist or not. It returns **0** if the file exists and **1** if the file does not exist.
 
-### ⚡ isFolder()
+### isFolder()
 
 > `int isFolder(char * foldername)`\
->  Similar to [isFile()](#⚡-isfile) . It is used to check if the folder exist or not. It returns **0** if the folder exists and **1** if the folder does not exist.
+>  Similar to [isFile()](#-isfile) . It is used to check if the folder exist or not. It returns **0** if the folder exists and **1** if the folder does not exist.
 
 ---
 
