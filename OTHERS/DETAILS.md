@@ -48,7 +48,7 @@
 ### isFolder()
 
 > `int isFolder(char * foldername)`\
->  Similar to [isFile()](#-isfile) . It is used to check if the folder exist or not. It returns **0** if the folder exists and **1** if the folder does not exist.
+>  Similar to [isFile()](#isfile) . It is used to check if the folder exist or not. It returns **0** if the folder exists and **1** if the folder does not exist.
 
 ---
 
