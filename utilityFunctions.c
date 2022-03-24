@@ -1,6 +1,11 @@
+#ifndef utilityfunctions_c_file
+#define utilityfunctions_c_file
+
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <direct.h>
+#include <dirent.h>
 
 void utilityFunctions(void)
 {
@@ -8,10 +13,12 @@ void utilityFunctions(void)
 }
 
 // Function to create a new file
-// Returns 0 if file is created successfully
+// @Returns, 0-if file is created successfully, 1 - if failed to create file
 int createFile(char *fileName)
 {
     FILE *fp;
+    if (isFile(fileName) == 0)
+        return 0;
     fp = fopen(fileName, "w");
     if (fp)
         return 0;
@@ -41,8 +48,6 @@ int createFolder(char *folderName)
 int isFile(char *fileName)
 {
     FILE *fp;
-    if (isFile(fileName) == 0)
-        return 0;
     fp = fopen(fileName, "r");
     if (fp)
         return 0;
@@ -53,14 +58,13 @@ int isFile(char *fileName)
 // Function to check if a folder exists
 int isFolder(char *folderName)
 {
-    int i = 0;
+    DIR *dir;
     char path[200];
     _getcwd(path, sizeof(path));
     strcat(path, "\\");
     strcat(path, folderName);
-    printf("-- isFolder Path is [%s]\n", path);
-    i = _access(path, 0);
-    if (i == 0)
+    // printf("-- isFolder Path is [%s]\n", path);
+    if ((dir = opendir(path)) != NULL)
         return 0;
     else
         return 1;
@@ -97,3 +101,14 @@ char *replaceWord(const char *fullString, const char *oldWord, const char *newWo
     result[i] = '\0';
     return result;
 }
+
+char *getFullPath(char *name)
+{
+    char path[200];
+    char *tempName = replaceWord(name, "/", "\\");
+    _getcwd(path, sizeof(path));
+    strcat(path, "\\");
+    strcat(path, tempName);
+}
+
+#endif // file include endif

@@ -1,15 +1,32 @@
 # All Details about the Code
 
-## Headers
+## Contents in this Page :-
+
+#### `(Click the below Points to Direct go to that section)`
+
+1. [Header Files](#headers-files)
+2. [In-built Functions Used](#headers-files)
+3. [Custom Functions](#custom-functions)
+4. [Other Function](#other-functions)
+
+---
+
+## Headers Files
 
 1. `<direct.h>`
    To use _\_mkdir()_ function [ not *mkdir()* ] we need this header file. We will use **_direct.h_** instead of **_dirent.h_** [ Only found in Linux ] in this program. The function in this header file [ like **_mkdir()** ] starts with a underscore[ \_ ].
 
 2. `<dirent.h>`
-   This header file is only found in **Linux System**. For windows, we will use _<direct.h>_ as a replacement.
+   This header file is only found in **Linux System**. Need to use readdir() function to read the directory.
 
 3. `<sys/types.h>`
    It is used to use the types of data in program
+
+4. `<string.h>`
+   Need this header file to Use the string related functions (like. strcpy,strcat etc).
+
+5. `<stdlib.h>`
+   Need this header file to Use the [**malloc()**](#in-built-functions-used) function in our cunstom-function [replaceWord()](#replaceword).
 
 ---
 
@@ -19,6 +36,20 @@
   It is used to create a new folder in the current directory
 - `_getcwd()`
   It is used to get the path current directory | **\_\_getcwd(path, sizeof(path))** gives us the path of current directory in the _path_ variable.
+- `opendir()`
+  It is used to open a directory (not to create).
+- `readir()`
+  It is used to read a directory, after opening it with _opendir_ , and get all file & folder names of that directory.
+- `closedir()`
+  It is used to close a directory.
+- `strcmp()`
+  It is used to remove a directory.
+- `malloc()`
+  It is used to allocate some memory to a variable. Normally used to allocate memory to a string pointer.
+- `strcpy()`
+  It is used to copy a string to another string variable/pointer.
+- `strcat()`
+  It is used to concatenate a string with another string variable/pointer.
 
 ---
 
@@ -27,31 +58,58 @@
 <!--
 ******* Format *******
 ### functionName()
->`returnType functionName(arguments ...)`\
+>**`returnType functionName(arguments ...)`**\
 >    Name with link if this function is similar to any other function. Then a long description about the function. After that describe @Return Value (if any).
 -->
 
+<!----------------  Primary  Functions ----------------->
+
 ### tracker_start()
->`void tracker_start()`\
->    Start the Tracker in current folder. It prints out if the Tracker is already started or, Started now or not.
+
+> **`void tracker_start()`**\
+>  Start the Tracker in current folder. It prints out if the Tracker is already started or, Started now or not.
+
+### tracker_status()
+
+> **`int tracker_status()`**\
+>  Prints out if Tracker started or not in Current folder. Return, **0** - if Started already, **1** - if not Started.
+
+### getDirectoryList()
+
+> **`int getDirectoryList(char *foldername)`**\
+>  Saves all the file & folder path of the given _foldername_ and it's sub-folders in [ `.text/all.txt` ] . Return, **0** - if all saved successfully, **1** - if source folder(_foldername_) doesn't exists , **2** - if save folder does't exists or failed to access.
+
+<!----------------  Utiity  Functions ----------------->
 
 ### createFile()
->`int createFile(char *fileName)`\
->    It is used to create a new file. It takes a file name (path) as an argument.
+
+> **`int createFile(char *fileName)`**\
+>  It is used to create a new file. It takes a file name (path) as an argument.
 
 ### createFolder()
->`int createFolder(char *folderName)`\
->    It is used to create a new folder in. It takes a folder name (path) as an argument.
+
+> **`int createFolder(char *folderName)`**\
+>  Similar to [createFile()](#createfile) . It is used to create a new folder in. It takes a folder name (path) as an argument.
 
 ### isFile()
 
-> `int isFile(char * filename)`\
+> **`int isFile(char * filename)`**\
 >  It is used to check if the file exist or not. It returns **0** if the file exists and **1** if the file does not exist.
 
 ### isFolder()
 
-> `int isFolder(char * foldername)`\
+> **`int isFolder(char * foldername)`**\
 >  Similar to [isFile()](#isfile) . It is used to check if the folder exist or not. It returns **0** if the folder exists and **1** if the folder does not exist.
+
+### replaceWord()
+
+> **`char *replaceWord(const char *fullString, const char *oldWord, const char *newWord)`**\
+>  Used to replace all occurences of a specific word/character in a String with another word/character. @parameters, _fullString_ is the String of which the specific word would nbe replaced, _oldWord_ is the word/character to be replaced and _newWord_ is the new word/character which I want to put in the String.
+
+### getFullPath()
+
+> **`char *getFullPath(char *name)`**\
+>  Takes file/foldername as @parameter. @returns full path of that file/folder in **path\to\folder\file** format.
 
 ---
 
@@ -91,13 +149,15 @@
   It is used to truncate a file
 - `ftruncate()`
   It is used to truncate a file descriptor
-- `readdir()`
-  It is used to get the list of files in a directory
-- `opendir()`
-  It is used to open a directory
-- `closedir()`
-  It is used to close a directory
 - `readdir_r()`
   It is used to get the list of files in a directory
-- `readdir_r()`
-  It is used to get the list of
+- `fsync()`
+  It is used to synchronize a file with the underlying storage device
+- `fdatasync()`
+  It is used to synchronize a file with the underlying storage device
+- `sync()`
+  It is used to synchronize the entire file system
+- `fstatfs()`
+  It is used to get the file system statistics
+- `statfs()`
+  It is used to get the file system statistics

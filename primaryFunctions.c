@@ -1,5 +1,15 @@
 #include <stdio.h>
-// #include "utilityFunctions.c" //may need this to use utility functions in primary functions
+#include <stdlib.h>
+#include <dirent.h> // use this for directory traversal
+#include <sys/types.h>
+
+#include "utilityFunctions.c" //may need this to use utility functions in primary functions
+
+// ---- Custom  Defines ----
+#ifndef HOST_FOLDER_NAME
+#define HOST_FOLDER_NAME ".text\\directory"
+#define SAVE_FILE_NAME ".text\\directory\\all.txt"
+#endif
 
 void primaryFunctions(void)
 {
@@ -17,5 +27,80 @@ void tracker_start()
             printf("Tracker started in the current folder\n");
         else
             printf("Failed to start Tracker. Please give \"Admistration Permission\" to this file\n");
+    }
+}
+
+// Function to check if Tracker is started or Not
+int tracker_status()
+{
+    if (isFolder(".text") == 0)
+    {
+        printf("Tracker Running in this Folder\n");
+        return 0;
+    }
+    else
+    {
+        printf("This folder is Not Tracking\n");
+        return 1;
+    }
+}
+
+// save all filename/foldername in current directory
+// @Rerturns 0-if Saved Successfully, 1-if source folder doesn't exist, 2-if save folder doesn't exist or failed to access
+int getDirectoryList(char *foldername)
+{
+    DIR *dir;
+    struct dirent *element;
+    char *getFolder = foldername, *saveFolder = HOST_FOLDER_NAME;
+    char primaryPath[250], tempName[250]; // tempName for foldernames
+    FILE *all, *files, *folders;
+    int isRootFolder = (strcmp(getFolder, ".") == 0) ? 0 : 1;
+
+    if (isFolder(getFolder) == 1) // if Source folder don't exist
+        return 1;
+
+    if (isFolder(saveFolder) == 1) // if Save folder don't exist
+        return 2;
+
+    if ((dir = opendir(getFolder)) == NULL) // if failed to access Save folder
+        return 2;
+    else
+    {
+        while ((element = readdir(dir)) != NULL)
+        {
+            all = fopen(SAVE_FILE_NAME, "a");
+            if ((strcmp(element->d_name, ".") != 0) && (strcmp(element->d_name, "..") != 0))
+            {
+                if (isRootFolder == 1)
+                {
+                    strcpy(primaryPath, getFolder);
+                    strcat(primaryPath, "/");
+                    strcat(primaryPath, (element->d_name));
+                }
+                else
+                    strcpy(primaryPath, (element->d_name));
+                // printf("=> (%s)\n", primaryPath);
+
+                if (isFolder(primaryPath) == 0)
+                {
+                    if ((strcmp(getFolder, ".") != 0) && (strcmp(getFolder, "..") != 0))
+                        strcpy(tempName, primaryPath);
+                    else
+                        strcpy(tempName, (element->d_name));
+                    strcat(tempName, "/");
+                    fprintf(all, "%s\n", tempName);
+
+                    getDirectoryList(primaryPath);
+
+                    // printf(">> It is a folder => %s\n>> call gdl (%s) = %d\n", primaryPath,primaryPath, getDirectoryList(primaryPath));
+                }
+                else
+                    fprintf(all, "%s\n", primaryPath);
+
+                strcpy(primaryPath, "");
+            }
+            fclose(all);
+        }
+        return 0;
     }
 }
