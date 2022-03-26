@@ -7,6 +7,14 @@
 #include <direct.h>
 #include <dirent.h>
 
+// ---- Custom  Defines ----
+#ifndef HOST_FOLDER_NAME
+#define HOST_FOLDER_NAME ".text\\directory"
+#define SAVE_FILE_NAME ".text\\directory\\all.txt"
+#define SAVE_ONY_FILES ".text\\directory\\files.txt"
+#define SAVE_ONY_FOLDERS ".text\\directory\\folders.txt"
+#endif
+
 void utilityFunctions(void)
 {
     printf("This is 'utilityFunctions.c' file \n");
@@ -109,6 +117,64 @@ char *getFullPath(char *name)
     _getcwd(path, sizeof(path));
     strcat(path, "\\");
     strcat(path, tempName);
+}
+
+int separate_File_Folder()
+{
+    FILE *all, *files, *folders;
+    char line[260], ch;
+    int i;
+
+    all = fopen(SAVE_FILE_NAME, "r");
+    if (all == NULL)
+        return 1;
+
+    i = 0;
+    files = fopen(SAVE_ONY_FILES, "w");
+    folders = fopen(SAVE_ONY_FOLDERS, "w");
+
+    if (files == NULL || folders == NULL)
+        return 2;
+
+    while (ch != EOF)
+    {
+        ch = fgetc(all);
+        if ((ch != '\n') && (ch != '\n'))
+            line[i++] = ch;
+
+        if (ch == '\n')
+        {
+            if (i >= 1)
+                line[i] = '\0';
+
+            i = 0;
+            // Now Line is ready to be processed
+            if (isFile(line) == 0)
+                fprintf(files, "%s\n", line);
+            else if (isFolder(line) == 0)
+                fprintf(folders, "%s\n", line);
+            else
+                fprintf(files, "%s\n", line);
+        }
+    }
+    if (line >= 1)
+        line[--i] = '\0';
+
+    fclose(all);
+    fclose(files);
+    fclose(folders);
+    return 0;
+}
+
+// Return file/foldername from the given path
+char *path_to_basename(char *path)
+{
+    char *p;
+    p = strrchr(path, '/');
+    if (p)
+        return p + 1;
+    else
+        return path;
 }
 
 #endif // file include endif

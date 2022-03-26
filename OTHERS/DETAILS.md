@@ -2,10 +2,10 @@
 
 ## Contents in this Page :-
 
-#### `(Click the below Points to Direct go to that section)`
+`(Click the below Points to Direct go to that section)`
 
 1. [Header Files](#headers-files)
-2. [In-built Functions Used](#headers-files)
+2. [In-built Functions Used](#inbuilt-functions-used)
 3. [Custom Functions](#custom-functions)
 4. [Other Function](#other-functions)
 
@@ -50,6 +50,12 @@
   It is used to copy a string to another string variable/pointer.
 - `strcat()`
   It is used to concatenate a string with another string variable/pointer.
+- `strrchr()`
+  It is used to get the last occurance of a character in a string.
+- `fopen()`
+  It is used to Open a file for writing or reading.
+- `fprintf()`
+  It is used to write formatted text [ like we do in _printf()_ ], in a file.
 
 ---
 
@@ -77,7 +83,7 @@
 ### getDirectoryList()
 
 > **`int getDirectoryList(char *foldername)`**\
->  Saves all the file & folder path of the given _foldername_ and it's sub-folders in [ `.text/all.txt` ] . Return, **0** - if all saved successfully, **1** - if source folder(_foldername_) doesn't exists , **2** - if save folder does't exists or failed to access.
+>  Saves all the file & folder path of the given _foldername_ and it's sub-folders in [ `.text/directory/all.txt` ] . Return, **0** - if all saved successfully, **1** - if source folder(_foldername_) doesn't exists , **2** - if save folder does't exists or failed to access.
 
 <!----------------  Utiity  Functions ----------------->
 
@@ -110,6 +116,16 @@
 
 > **`char *getFullPath(char *name)`**\
 >  Takes file/foldername as @parameter. @returns full path of that file/folder in **path\to\folder\file** format.
+
+### separate_File_Folder()
+
+> **`int separate_File_Folder()`**\
+>  It reads the **.text/directory/all.txt** file and separates File & Folder paths in two different files, **.text/directory/file.txt** and **.text/directory/folder.txt** correspondingly.
+
+### path_to_basename()
+
+> **`char *path_to_basename(char *path)`**\
+>  It is used to get the base file/folder name of the given path. It takes a path as @parameter and returns the origina filename/foldername.
 
 ---
 

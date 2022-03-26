@@ -6,6 +6,8 @@
 #ifndef HOST_FOLDER_NAME
 #define HOST_FOLDER_NAME ".text\\directory"
 #define SAVE_FILE_NAME ".text\\directory\\all.txt"
+#define SAVE_ONY_FILES ".text\\directory\\files.txt"
+#define SAVE_ONY_FOLDERS ".text\\directory\\folders.txt"
 #endif
 
 //  Primary Function Declarations
@@ -20,6 +22,8 @@ char *getFullPath(char *name);
 int isFile(char *folderName);
 int isFolder(char *folderName);
 char *replaceWord(const char *fullString, const char *oldWord, const char *newWord);
+int separate_File_Folder();
+char *path_to_basename(char *path);
 
 // ***  Main Function  ***
 int main()
