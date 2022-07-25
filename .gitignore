@@ -1,0 +1,15 @@
+
+# Workspace settings of VS Code
+.vscode
+
+# Folder to save data of TRACKER 
+.text/
+
+# .exe files
+*.exe
+
+# Folder for Testing tracking
+tfolder*/
+
+# File to skip files in TRACKER 
+.skip

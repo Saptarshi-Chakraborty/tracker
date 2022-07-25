@@ -1,5 +1,5 @@
-#ifndef utilityfunctions_c_file
-#define utilityfunctions_c_file
+#ifndef _utilityfunctions_c_file
+#define _utilityfunctions_c_file
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,11 +8,13 @@
 #include <dirent.h>
 
 // ---- Custom  Defines ----
-#ifndef HOST_FOLDER_NAME
-#define HOST_FOLDER_NAME ".text\\directory"
+#ifndef SAVE_FOLDER_NAME
+#define SAVE_FOLDER_NAME ".text\\directory"
 #define SAVE_FILE_NAME ".text\\directory\\all.txt"
 #define SAVE_ONY_FILES ".text\\directory\\files.txt"
 #define SAVE_ONY_FOLDERS ".text\\directory\\folders.txt"
+#define SAVE_ONY_FILES_BASENAME ".text\\directory\\filename.txt"
+#define SAVE_ONY_FOLDERS_BASENAME ".text\\directory\\foldername.txt"
 #endif
 
 void utilityFunctions(void)
@@ -157,7 +159,7 @@ int separate_File_Folder()
                 fprintf(files, "%s\n", line);
         }
     }
-    if (line >= 1)
+    if (i >= 1)
         line[--i] = '\0';
 
     fclose(all);
@@ -175,6 +177,45 @@ char *path_to_basename(char *path)
         return p + 1;
     else
         return path;
+}
+
+// Function to check if a given file tracking or Not
+// @Return
+int isFileTracking(char *filename)
+{
+    FILE *fp;
+    char line[260];
+    fp = fopen(SAVE_ONY_FILES, "r");
+    if (fp)
+    {
+        while (fgets(line, sizeof(line), fp))
+        {
+            if (line[strlen(line) - 1] == '\n')
+                line[strlen(line) - 1] = '\0';
+            if (strcmp(line, filename) == 0)
+                return 0;
+        }
+    }
+    return 1;
+}
+
+// Function to check if a given folder tracking or Not
+int isFolderTracking(char *foldername)
+{
+    FILE *fp;
+    char line[260];
+    fp = fopen(SAVE_ONY_FOLDERS, "r");
+    if (fp)
+    {
+        while (fgets(line, sizeof(line), fp))
+        {
+            if (line[strlen(line) - 1] == '\n')
+                line[strlen(line) - 1] = '\0';
+            if (strcmp(line, foldername) == 0)
+                return 0;
+        }
+    }
+    return 1;
 }
 
 #endif // file include endif

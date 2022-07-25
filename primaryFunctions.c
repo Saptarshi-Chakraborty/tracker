@@ -6,8 +6,8 @@
 #include "utilityFunctions.c" //may need this to use utility functions in primary functions
 
 // ---- Custom  Defines ----
-#ifndef HOST_FOLDER_NAME
-#define HOST_FOLDER_NAME ".text\\directory"
+#ifndef SAVE_FOLDER_NAME
+#define SAVE_FOLDER_NAME ".text\\directory"
 #define SAVE_FILE_NAME ".text\\directory\\all.txt"
 #endif
 
@@ -51,7 +51,7 @@ int getDirectoryList(char *foldername)
 {
     DIR *dir;
     struct dirent *element;
-    char *getFolder = foldername, *saveFolder = HOST_FOLDER_NAME;
+    char *getFolder = foldername, *saveFolder = SAVE_FOLDER_NAME;
     char primaryPath[250], tempName[250]; // tempName for foldernames
     FILE *all, *files, *folders;
     int isRootFolder = (strcmp(getFolder, ".") == 0) ? 0 : 1;
@@ -103,4 +103,73 @@ int getDirectoryList(char *foldername)
         }
         return 0;
     }
+}
+
+
+// Extract basename of files & folders and save in files
+// @returns, 0-Success ;1-File of pathnames not found ;2-failed to read file ; 3-failed to create files
+int save_basename()
+{
+    FILE *files, *folders, *filename, *foldername;
+    char line[260], ch;
+    int i;
+
+    if ((isFile(SAVE_ONY_FILES) == 1) || (isFile(SAVE_ONY_FOLDERS) == 1))
+        return 1;
+
+    files = fopen(SAVE_ONY_FILES, "r");
+    folders = fopen(SAVE_ONY_FOLDERS, "r");
+    if (files == NULL || folders == NULL)
+        return 2;
+
+    filename = fopen(SAVE_ONY_FILES_BASENAME, "w");
+    foldername = fopen(SAVE_ONY_FOLDERS_BASENAME, "w");
+    if (filename == NULL || foldername == NULL)
+        return 3;
+
+    // Extract Filenames
+    i = 0;
+    while (ch != EOF)
+    {
+        ch = fgetc(files);
+        if ((ch != '\n') && (ch != '\n'))
+            line[i++] = ch;
+
+        if (ch == '\n')
+        {
+            if (i >= 1)
+                line[i] = '\0';
+
+            i = 0;
+            // Now Line is ready to be processed
+            fprintf(filename, "%s\n", path_to_basename(line));
+        }
+    }
+
+    // Extract Foldernames
+    i = 0;
+    ch = "";
+    while (ch != EOF)
+    {
+        ch = fgetc(folders);
+        if ((ch != '\n') && (ch != '\n'))
+            line[i++] = ch;
+
+        if (ch == '\n')
+        {
+            if (i >= 1)
+                line[--i] = '\0'; // as fodlerpath ends with "/" so we need to remove it, --so decrement i
+
+            i = 0;
+            // Now Line is ready to be processed
+            fprintf(foldername, "%s\n", path_to_basename(line));
+        }
+    }
+
+    fclose(files);
+    fclose(folders);
+    fclose(filename);
+    fclose(foldername);
+
+    return 0;
 }

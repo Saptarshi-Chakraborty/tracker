@@ -6,4 +6,15 @@ HOW TO USE :
     * Canceled Task : [Alt + c]
     *
 
-Project Tracker :
+Project Tracker Funtionality :
+    ✔ Get all file and folder path @done (3/25/2022, 4:00:00 AM)
+    ✔ Separate File and Folder Paths @done (3/26/2022, 9:57:02 PM)
+    ✔ Extract file and folder Names from path @done (3/27/2022, 12:37:11 AM)
+    ☐ Function to check if file is tracking or not
+    ☐ Function to check if folder is tracking or not
+    ☐ Function to write conents of all tracking files in a single file
+    ☐ A file in which all changes of a specific commit will be stored
+
+Error :
+    ☐ Anchor link of (In-built Functions Used) in Table of content is not working in github
+    ☐ More specify the (tracker_start) function in  'Custom Functions' section
