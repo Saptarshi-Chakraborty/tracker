@@ -69,7 +69,7 @@ int isFile(char *fileName)
 int isFolder(char *folderName)
 {
     DIR *dir;
-    char path[200];
+    char path[250];
     _getcwd(path, sizeof(path));
     strcat(path, "\\");
     strcat(path, folderName);

@@ -12,6 +12,15 @@
 - All Git push must be done with enough comment
 - File with .exe extension will be ignored
 
+## 📢 (.skip) File Rules :-
+
+### Folders :
+- `/folder_name` will only returns ***Yes*** for the direct subfolder availavle in root folder means, it will only return true for **folder_name/** and not for [ _parent_folder/folder_name_ ]
+
+
+
+
+
 ## 📢 (.text) Folder Stucture :-
 
 ```bash

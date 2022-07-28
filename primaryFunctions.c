@@ -105,7 +105,6 @@ int getDirectoryList(char *foldername)
     }
 }
 
-
 // Extract basename of files & folders and save in files
 // @returns, 0-Success ;1-File of pathnames not found ;2-failed to read file ; 3-failed to create files
 int save_basename()
@@ -148,7 +147,7 @@ int save_basename()
 
     // Extract Foldernames
     i = 0;
-    ch = "";
+    strcpy(ch, "");
     while (ch != EOF)
     {
         ch = fgetc(folders);
