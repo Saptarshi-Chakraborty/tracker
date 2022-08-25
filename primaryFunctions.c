@@ -46,7 +46,7 @@ int tracker_status()
 }
 
 // save all filename/foldername in current directory
-// @Rerturns 0-if Saved Successfully, 1-if source folder doesn't exist, 2-if save folder doesn't exist or failed to access
+// @rerturn 0-if Saved Successfully, 1-if source folder doesn't exist, 2-if save folder doesn't exist or failed to access
 int getDirectoryList(char *foldername)
 {
     DIR *dir;
