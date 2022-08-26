@@ -1,25 +1,22 @@
-#define _GNU_SOURCE
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/stat.h>
 
 // #define function1
 #define function2
-#define LINE_SIZE 10
+#define LINE_SIZE 1000
 
 int writeFileContent();
+int readLengthIndependentLine();
 
 int main()
 {
     printf("Hello World\n");
-    writeFileContent();
+    readLengthIndependentLine();
     return 0;
 }
 
-#ifdef function1
 int writeFileContent()
 {
     FILE *draftFile, *targetFile;
@@ -44,11 +41,10 @@ int writeFileContent()
     fclose(draftFile);
     return 0;
 }
-#endif
 
-#ifdef function2
 
-int writeFileContent()
+ 
+int readLengthIndependentLine()
 {
     FILE *allFiles;
     char *fileName = "../.text/directory/files.txt";
@@ -69,51 +65,67 @@ int writeFileContent()
     flag1 = 0;
     flag2 = 0;
 
-    while (fgets(buffer, bufferLength, allFiles))
+    while (fgets(buffer, bufferLength, allFiles) != NULL)
     {
-        printf("[%s]\n", buffer);
         i++;
 
-        if (buffer[strlen(buffer) - 1] != '\n')
+        if (buffer[strlen(buffer) - 1] == '\n')
         {
-            flag1 = 1;
-        }
-        // flag1
+            if (flag1 == 1)
+            {
+                value1 = strlen(tempStr1);
+                line = (char *)malloc(value1 + strlen(buffer) + 1);
 
-        if (flag1 == 1)
+                strcpy(line, tempStr1);
+                strcat(line, buffer);
+                free(tempStr1);
+            }
+            else
+            {
+                // if buffer includes full line
+                line = (char *)malloc(strlen(buffer));
+                strcpy(line, buffer);
+            }
+        }
+        else
         {
-            if (flag2 == 0)
+            if (flag1 == 0)
             {
                 tempStr1 = (char *)malloc(LINE_SIZE);
                 strcpy(tempStr1, buffer);
             }
             else
             {
-                flag2 = 1;
                 value1 = strlen(tempStr1);
 
-                tempStr2 = (char *)malloc(value2);
+                tempStr2 = (char *)malloc(value1);
                 strcpy(tempStr2, tempStr1);
-                tempStr1 = (char *)realloc(tempStr1, (value1 + strlen(buffer)));
 
+                tempStr1 = (char *)realloc(tempStr1, (value1 + strlen(buffer) + 1));
                 strcpy(tempStr1, tempStr2);
                 strcat(tempStr1, buffer);
 
                 free(tempStr2);
             }
-        }
-        else
-        {
-
-            // Do something
+            flag1 = 1;
+            continue;
         }
 
+        // Now, line is ready to use
+        value2 = strlen(line);
+        // if (line[value2 - 1] == '\n')
+        line[value2 - 1] = '\0';
+        printf("line: [%s]\n", line);
+        flag2++;
+
+        flag1 = 0;
+        free(tempStr1);
+        free(line);
     } // while end
 
     printf("\n\n-----\ni= %d\n", i);
+    printf("No of line: %d\n", flag2);
     fclose(allFiles);
 
     return 0;
 }
-
-#endif
