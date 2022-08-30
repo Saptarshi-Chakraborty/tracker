@@ -10,6 +10,11 @@
 #define SAVE_ONY_FOLDERS ".text\\directory\\folders.txt"
 #define SAVE_ONY_FILES_BASENAME ".text\\directory\\filename.txt"
 #define SAVE_ONY_FOLDERS_BASENAME ".text\\directory\\foldername.txt"
+#define ALL_FILE_LIST ".text/directory/files.txt"
+#define DRAFT_FILE_NAME "__draft__"
+#define LINE_SIZE 1000
+#define END_OF_FILE_STRING "\%--<__EOF>{END_OF_FILE}--=\%"
+#define END_OF_FILE_PATH_STRING "0--<__EOFP>{END_OF_FILE_PATH}--=1"
 #endif
 
 //  Primary Function Declarations
@@ -17,6 +22,7 @@ void tracker_start();
 int tracker_status();
 int getDirectoryList(char *);
 int save_basename();
+int makedraft();
 
 /* Utility Function Declarations */
 int createFile(char *fileName);
@@ -29,6 +35,8 @@ int separate_File_Folder();
 char *path_to_basename(char *path);
 int isFileTracking(char *filename);
 int isFolderTracking(char *foldername);
+int draft_all_file_path();
+int writeFileContent(char *);
 
 // ***  Main Function  ***
 int main()
