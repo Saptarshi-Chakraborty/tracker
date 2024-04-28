@@ -15,8 +15,8 @@
 #define END_OF_FOLDER_PATH_STRING "0--<__EOFOP>{END_OF_FOLDER_PATH}--=1"
 
 // ---- Function Prototypes ---- //
-void itrateAllFiles();
-FILE * writeFileContent(FILE *, char[]);
+void readCommitFile();
+FILE *writeFileContent(FILE *, char[]);
 FILE *generateAllFolders(FILE *);
 int createFile(char *);
 int createFolder(char *);
@@ -27,12 +27,12 @@ int main()
 {
     printf("Hello World\n");
 
-    itrateAllFiles();
+    readCommitFile();
 
     return 0;
 }
 
-void itrateAllFiles()
+void readCommitFile()
 {
     FILE *commitfile;
     char line[LINE_SIZE], filename[LINE_SIZE];
@@ -68,7 +68,7 @@ void itrateAllFiles()
     } // End of while
 
     // Now read line by line and generate folders
-    generateAllFolders(commitfile);
+    regenerateAllFolders(commitfile);
 
     // Now one by one file content starts
     // First get fill the First F: line
@@ -110,7 +110,7 @@ void itrateAllFiles()
     fclose(commitfile);
 }
 
-FILE *generateAllFolders(FILE *file)
+FILE *regenerateAllFolders(FILE *file)
 {
     char line[LINE_SIZE];
     int line_length = 0;
@@ -134,10 +134,10 @@ FILE *generateAllFolders(FILE *file)
         createFolder(line);
     }
 
-    return 0;
+    return NULL;
 }
 
-FILE * writeFileContent(FILE *file, char filepath[])
+FILE *writeFileContent(FILE *file, char filepath[])
 {
     printf("--- Filepath : [%s] --\n", filepath);
     createFile(filepath);
@@ -164,7 +164,7 @@ FILE * writeFileContent(FILE *file, char filepath[])
         {
             fprintf(fp, "%s", prevline);
             printf("--- End of File Content ---\n");
-            
+
             return file;
         }
 
@@ -180,7 +180,7 @@ FILE * writeFileContent(FILE *file, char filepath[])
 
     fclose(fp);
 
-    return 0;
+    return NULL;
 }
 
 // ---- Utility Functions ---- //

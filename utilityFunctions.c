@@ -18,8 +18,9 @@
 #define ALL_FILE_LIST ".text/directory/files.txt"
 #define DRAFT_FILE_NAME "__draft__"
 #define LINE_SIZE 1000
-#define END_OF_FILE_STRING "\%--<__EOF>{END_OF_FILE}--=\%"
+#define END_OF_FILE_STRING "1--<__EOF>{END_OF_FILE}--=3"
 #define END_OF_FILE_PATH_STRING "0--<__EOFP>{END_OF_FILE_PATH}--=1"
+#define END_OF_FOLDER_PATH_STRING "0--<__EOFOP>{END_OF_FOLDER_PATH}--=1"
 #endif
 
 void utilityFunctions(void)
@@ -346,6 +347,106 @@ int writeFileContent(char *file)
 
     fclose(fp);
     fclose(target_file);
+}
+
+FILE *regenerateFile(FILE *file, char filepath[])
+{
+    printf("--- Filepath : [%s] --\n", filepath);
+    createFile(filepath);
+
+    // Now write the content of the file till the END_OF_FILE_STRING
+
+    char line[LINE_SIZE], prevline[LINE_SIZE];
+    int line_length = 0, prevline_length = 0;
+    int flag = 0;
+    FILE *fp;
+
+    fp = fopen(filepath, "w");
+
+    while (fgets(line, LINE_SIZE, file) != NULL)
+    {
+        line_length = strlen(line);
+        // trim the next line character
+        if (line[line_length - 1] == '\n')
+        {
+            line[line_length - 1] = '\0';
+        }
+
+        if (strcmp(line, END_OF_FILE_STRING) == 0)
+        {
+            fprintf(fp, "%s", prevline);
+            printf("--- End of File Content ---\n");
+
+            return file;
+        }
+
+        if (flag != 0)
+            fprintf(fp, "%s\n", prevline);
+
+        prevline_length = strlen(line);
+        strcpy(prevline, line);
+
+        flag = 1;
+        // printf("File Content : [%s]\n", line);
+    }
+
+    fclose(fp);
+
+    return NULL;
+}
+
+/// @brief Keyboard navigator menu that allows the user to navigate through a list of options using arrow keys and select an option with the Enter key.
+/// Example: keyboardNavigatorMenu((char *[]){"HELLO", "WORLD"}, 2);
+/// @param _options A pointer to an array of strings representing the options in the menu.
+/// @param _numberOfOptions The number of options in the menu.
+/// @return The index of the selected option
+int keyboardNavigatorMenu(char **_options, int _numberOfOptions)
+{
+    char ch = 0, k = 0;
+    int currentOption = 0, i;
+
+    while (1)
+    {
+#ifdef _WIN32 // Windows
+        system("cls");
+#else // Linux or Mac
+        system("clear");
+#endif
+
+        for (i = 0; i < _numberOfOptions; i++)
+        {
+            // green color text start
+            if (i == currentOption)
+                printf("\033[0;32m");
+
+            printf("%s", (currentOption == i) ? ">>" : "  ");
+            printf(" %s ", *(_options + i));
+            printf("%s", (currentOption == i) ? "<<" : "  ");
+            printf("\n");
+
+            // green color text end
+            if (i == currentOption)
+                printf("\033[0m");
+        }
+
+        fflush(stdin);
+        ch = getch();
+
+        if (ch == 13) // Enter key
+        {
+            break;
+        }
+        else if (ch == 72) // Up Arrow key
+        {
+            currentOption = (currentOption == 0) ? (_numberOfOptions - 1) : currentOption - 1;
+        }
+        else if (ch == 80) // Down Arrow key
+        {
+            currentOption = (currentOption == _numberOfOptions - 1) ? 0 : currentOption + 1;
+        }
+    }
+
+    return currentOption;
 }
 
 #endif // file include endif

@@ -1,11 +1,11 @@
 # All Details about the Code
 
-## Contents in this Page :-
+## Contents in this Page :
 
-`(Click the below Points to Direct go to that section)`
+`(Click the below links to directly go to that section)`
 
 1. [Header Files](#headers-files)
-2. [In-built Functions Used](#inbuilt-functions-used)
+2. [Library Functions Used](#library-functions-used)
 3. [Custom Functions](#custom-functions)
 4. [Other Function](#other-functions)
 
@@ -26,11 +26,11 @@
    Need this header file to Use the string related functions (like. strcpy,strcat etc).
 
 5. `<stdlib.h>`
-   Need this header file to Use the [**malloc()**](#in-built-functions-used) function in our cunstom-function [replaceWord()](#replaceword).
+   Need this header file to Use the [**malloc()**](#library-functions-used) function in our cunstom-function [replaceWord()](#replaceword).
 
 ---
 
-## In-built Functions Used
+## Library Functions Used
 
 - `_mkdir()`
   It is used to create a new folder in the current directory
@@ -56,6 +56,8 @@
   It is used to Open a file for writing or reading.
 - `fprintf()`
   It is used to write formatted text [ like we do in _printf()_ ], in a file.
+- `sprintf()`
+  It is used to write formatted text [ like we do in _printf()_ ], in a string.
 
 ---
 
@@ -126,6 +128,16 @@
 
 > **`char *path_to_basename(char *path)`**\
 >  It is used to get the base file/folder name of the given path. It takes a path as @parameter and returns the origina filename/foldername.
+
+### itrateAllFiles()
+
+> **`void itrateAllFiles()`**\
+>  It is the driver function to start reading the commit file and call the _generateAllFolders()_ & _writeFileContent()_ functions sequentially.
+
+### keyboardNavigatorMenu()
+
+> **`int keyboardNavigatorMenu(char **\_options, int \_numberOfOptions)`\*\*\
+>  This function creates a menu with the given options where user can navigate using the arrow keys and select the option using the Enter key of the keyboard. It takes the options and the number of options as @parameters. It @returns the index of the selected option.
 
 ---
 

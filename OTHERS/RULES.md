@@ -1,18 +1,18 @@
 
 # ALL RULES
 
-## 📢 Code Rules :-
+## 📢 Code Rules :
 
 - Only the flow of the program will be in the `main.c` file
 - The Primary Functions will be in `primaryFunction.c` file
 - The Utility Functions will be in `utilityFunction.c` file
 
-## 📢 Git Rules :-
+## 📢 Git Rules :
 
 - All Git push must be done with enough comment
 - File with .exe extension will be ignored
 
-## 📢 (.skip) File Rules :-
+## 📢 (.skip) File Rules :
 
 ### Folders :
 - `/folder_name` will only returns ***Yes*** for the direct subfolder availavle in root folder means, it will only return true for **folder_name/** and not for [ _parent_folder/folder_name_ ]
@@ -21,7 +21,7 @@
 
 
 
-## 📢 (.text) Folder Stucture :-
+## 📢 (.text) Folder Stucture :
 
 ```bash
     .text

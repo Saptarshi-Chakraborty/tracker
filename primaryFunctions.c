@@ -12,8 +12,9 @@
 #define ALL_FILE_LIST ".text/directory/files.txt"
 #define DRAFT_FILE_NAME "__draft__"
 #define LINE_SIZE 1000
-#define END_OF_FILE_STRING "\%--<__EOF>{END_OF_FILE}--=\%"
+#define END_OF_FILE_STRING "1--<__EOF>{END_OF_FILE}--=3"
 #define END_OF_FILE_PATH_STRING "0--<__EOFP>{END_OF_FILE_PATH}--=1"
+#define END_OF_FOLDER_PATH_STRING "0--<__EOFOP>{END_OF_FOLDER_PATH}--=1"
 #endif
 
 void primaryFunctions(void)
@@ -270,4 +271,125 @@ int makedraft()
     fclose(allFiles);
 
     return 0;
+}
+
+
+/**
+ * @brief Reads the draft file and performs necessary operations.
+ * 
+ * @return int Returns 0 on success.
+ */
+int readDraftFile()
+{
+    FILE *commitfile;
+    char line[LINE_SIZE], filename[LINE_SIZE];
+    int line_length = 0;
+
+    commitfile = fopen(DRAFT_FILE_NAME, "r");
+    if (!commitfile)
+    {
+        fprintf(stderr, "!!! Commit File not found !!!\n");
+        return;
+    }
+    printf("Openning file...\n");
+
+    while (fgets(line, LINE_SIZE, commitfile) != NULL)
+    {
+        // printf("%s", line);
+        line_length = strlen(line);
+
+        if (line[line_length - 1] == '\n')
+        {
+            line[line_length - 1] = '\0';
+        }
+
+        int comp = strcmp(line, END_OF_FOLDER_PATH_STRING);
+
+        // printf("Comparing [%s] with [%s] = %d\n", line, END_OF_FOLDER_PATH_STRING, comp); // DEBUG
+
+        if (strcmp(line, END_OF_FILE_PATH_STRING) == 0)
+        {
+            printf("--- End of File Path ---\n");
+            break;
+        }
+    } // End of while
+
+    // Now read line by line and generate folders
+    generateAllFolders(commitfile);
+
+    // Now one by one file content starts
+    // First get fill the First F: line
+    // Then get the file path
+    // Then get the file content
+    while (fgets(line, LINE_SIZE, commitfile) != NULL)
+    {
+        line_length = strlen(line);
+
+        if (line_length < 3)
+            continue;
+
+        // trim the next line character
+        if (line[line_length - 1] == '\n')
+        {
+            line[line_length - 1] = '\0';
+        }
+
+        // check if the line is file path
+        if (line[0] == 'F' && line[1] == ':')
+        {
+            printf("File Path : [%s]\n", line);
+
+            strcpy(filename, &line[2]);
+            printf("File Name : [%s]\n", filename);
+
+            commitfile = regenerateFile(commitfile, filename);
+
+            // break;
+            continue;
+        }
+    }
+
+    fgets(line, LINE_SIZE, commitfile);
+    printf("Line : [%s]\n", line);
+    fgets(line, LINE_SIZE, commitfile);
+    printf("Line : [%s]\n", line);
+
+    fclose(commitfile);
+
+    return 0;
+}
+
+
+
+/**
+ * Regenerates all folders based on the file contents.
+ *
+ * @param file A file pointer denoting the start of the content of folder list.
+ * @return A pointer to the file after processing the folder paths, or NULL if an error occurs.
+ */
+FILE *regenerateAllFolders(FILE *file)
+{
+    char line[LINE_SIZE];
+    int line_length = 0;
+
+    while (fgets(line, LINE_SIZE, file) != NULL)
+    {
+        line_length = strlen(line);
+
+        if (line[line_length - 1] == '\n')
+        {
+            line[line_length - 1] = '\0';
+        }
+
+        if (strcmp(line, END_OF_FOLDER_PATH_STRING) == 0)
+        {
+            printf("--- End of Folder Path ---\n");
+            return file;
+        }
+
+        printf("Folder Path : [%s]\n", line);
+        createFolder(line);
+    }
+
+    return NULL;
 }
